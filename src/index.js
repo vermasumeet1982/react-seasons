@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SeasonDisplay  from "./components/SeasonDisplay";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 class App extends React.Component {
 
@@ -38,7 +39,7 @@ class App extends React.Component {
     render() {
         console.log('Render called');
         if(this.state.loading) {
-            return <div> Loading... </div> 
+            return <LoadingSpinner/> 
         } else if(this.state.errorMessage && !this.state.lat) {
             return <div> Error : {this.state.errorMessage} </div>
         } else if(this.state.lat && !this.state.errorMessage) {
