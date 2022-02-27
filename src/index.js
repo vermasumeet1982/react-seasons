@@ -1,45 +1,48 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import SeasonDisplay  from "./components/SeasonDisplay";
 
 class App extends React.Component {
 
-    constructor(props) {
-        super(props);
-        // THIS IS THE ONLY TIME we do direct assignment. Every other place should call setState
-        this.state = { 
-            loading: true,
-            lat: null,
-            errorMessage: '',
-        };
-
+    state = { 
+        loading: true,
+        lat: null,
+        errorMessage: '',
+    };
+    componentDidMount() {
+        console.log('Component Did Mount. Making the call');
         window.navigator.geolocation.getCurrentPosition(
-            position => { 
+            position => 
                 this.setState({
                     ...this.state,
                     loading: false,
                     lat: position.coords.latitude,
                     errorMessage: '',
                 })
-            },
-            (error) => {
-                console.error(error);
+            ,
+            (error) => 
                 this.setState({
                     ...this.state,
                     loading: false,
                     lat: null,
                     errorMessage: error.message,
                 })
-            },
+            ,
         );
     }
 
+    componentDidUpdate() {
+        console.log('Component Did Update, rendered again');
+    }
+
     render() {
+        console.log('Render called');
         if(this.state.loading) {
             return <div> Loading... </div> 
         } else if(this.state.errorMessage && !this.state.lat) {
             return <div> Error : {this.state.errorMessage} </div>
         } else if(this.state.lat && !this.state.errorMessage) {
-            return <div> Latitude : {this.state.lat} </div>
+            return < SeasonDisplay lat={this.state.lat} />
         } 
     }
 
