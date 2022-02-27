@@ -1,3 +1,4 @@
+import './parent.css';
 import React from "react";
 import ReactDOM from "react-dom";
 import SeasonDisplay  from "./components/SeasonDisplay";
@@ -36,15 +37,23 @@ class App extends React.Component {
         console.log('Component Did Update, rendered again');
     }
 
-    render() {
-        console.log('Render called');
+    renderContent() {
         if(this.state.loading) {
-            return <LoadingSpinner/> 
+            return <LoadingSpinner message="Please choose permission setting"/> 
         } else if(this.state.errorMessage && !this.state.lat) {
             return <div> Error : {this.state.errorMessage} </div>
         } else if(this.state.lat && !this.state.errorMessage) {
             return < SeasonDisplay lat={this.state.lat} />
-        } 
+        }
+    }
+
+    render() {
+        console.log('Render called');
+        return (
+            <div className="dotted">
+                {this.renderContent()}
+            </div>
+        )
     }
 
 }
